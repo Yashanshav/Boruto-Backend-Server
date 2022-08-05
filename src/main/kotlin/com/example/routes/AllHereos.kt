@@ -1,6 +1,6 @@
 package com.example.routes
 
-import com.example.Repository.HeroRepository
+import com.example.repository.HeroRepository
 import com.example.models.ApiResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -16,7 +16,7 @@ fun Route.getAllHeroes() {
             val page = call.request.queryParameters["page"]?.toInt() ?: 1
             require(page in 1..5)
 
-            val apiResponse = heroRepository.getAllHereos(page = page)
+            val apiResponse = heroRepository.getAllHeroes(page = page)
             call.respond(message = apiResponse, status = HttpStatusCode.OK)
         }
         catch (e: NumberFormatException) {

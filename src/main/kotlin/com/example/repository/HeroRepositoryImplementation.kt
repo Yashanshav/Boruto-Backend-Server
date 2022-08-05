@@ -1,4 +1,4 @@
-package com.example.Repository
+package com.example.repository
 
 import com.example.models.ApiResponse
 import com.example.models.Hero
@@ -7,7 +7,7 @@ const val NEXT_PAGE = "nextPage"
 const val PREVIOUS_PAGE = "prevPage"
 
 class HeroRepositoryImplementation: HeroRepository {
-    override val hereos: Map<Int, List<Hero>> by lazy {
+    override val heroes: Map<Int, List<Hero>> by lazy {
         mapOf(
             1 to page1,
             2 to page2,
@@ -42,7 +42,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Amateratsu",
                 "Intelligence"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Lightning",
                 "Fire",
                 "Wind",
@@ -72,7 +72,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Shadow Clone",
                 "Senin Mode"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Wind",
                 "Earth",
                 "Lava",
@@ -100,7 +100,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Strength",
                 "Intelligence"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Earth",
                 "Water",
                 "Fire"
@@ -130,7 +130,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Rasengan",
                 "Intelligence"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Lightning",
                 "Wind",
                 "Water"
@@ -154,7 +154,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Strength",
                 "Intelligence"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Lightning",
                 "Wind",
                 "Fire"
@@ -178,7 +178,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Transformation",
                 "Intelligence"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Lightning",
                 "Wind"
             )
@@ -202,7 +202,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Transformation",
                 "Strength"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Fire"
             )
         ),
@@ -224,7 +224,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Transformation",
                 "Science"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Lightning",
                 "Wind",
                 "Fire",
@@ -248,7 +248,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Intelligence",
                 "Strength"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Lightning",
                 "Wind",
                 "Fire",
@@ -277,7 +277,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Space–Time",
                 "Intelligence"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Fire"
             )
         ),
@@ -298,7 +298,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Byakugan",
                 "Strength"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Fire",
                 "Lightning",
                 "Wind",
@@ -323,7 +323,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Rinnegan",
                 "Byakugan"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Fire",
                 "Lightning",
                 "Wind",
@@ -349,7 +349,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Transformation",
                 "Genjutsu"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Unknown"
             )
         ),
@@ -370,7 +370,7 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Intelligence",
                 "Trickery"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Unknown"
             )
         ),
@@ -391,20 +391,21 @@ class HeroRepositoryImplementation: HeroRepository {
                 "Rasengan",
                 "Shadow Clone"
             ),
-            natureTypes = listOf(
+            natureType = listOf(
                 "Fire",
                 "Earth"
             )
         )
     )
 
-    override suspend fun getAllHereos(page: Int): ApiResponse {
+    override suspend fun getAllHeroes(page: Int): ApiResponse {
         return ApiResponse(
             success = true,
             message = "ok",
             prevPage = calculatePage(page)[PREVIOUS_PAGE],
             nextPage = calculatePage(page)[NEXT_PAGE],
-            heroes = hereos[page]!!
+            heroes = heroes[page]!!,
+            lastUpdated = System.currentTimeMillis()
         )
     }
 
@@ -428,7 +429,7 @@ class HeroRepositoryImplementation: HeroRepository {
         return mapOf(PREVIOUS_PAGE to prevPage, NEXT_PAGE to nextPage)
     }
 
-    override suspend fun searchAllHereos(name: String): ApiResponse {
+    override suspend fun searchAllHeroes(name: String): ApiResponse {
         return ApiResponse(
             success = true,
             message = "ok",
@@ -439,7 +440,7 @@ class HeroRepositoryImplementation: HeroRepository {
     private fun findHeroes(query: String?): List<Hero> {
         val founded = mutableListOf<Hero>()
         return if(!query.isNullOrEmpty()) {
-            hereos.forEach {(_, heroes) ->
+            heroes.forEach { (_, heroes) ->
                 heroes.forEach { hero ->
                     if(hero.name.lowercase().contains(query.lowercase())) {
                         founded.add(hero)

@@ -1,7 +1,6 @@
 package com.example.routes
 
-import com.example.Repository.HeroRepository
-import com.example.models.Hero
+import com.example.repository.HeroRepository
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -14,7 +13,7 @@ fun Route.searchHeroes() {
     get("/boruto/heroes/search") {
         val name = call.request.queryParameters["name"]
 
-        val apiResponse = heroRepository.searchAllHereos(name = name!!)
+        val apiResponse = heroRepository.searchAllHeroes(name = name!!)
         call.respond(
             message = apiResponse,
             status = HttpStatusCode.OK

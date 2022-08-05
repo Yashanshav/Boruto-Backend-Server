@@ -1,7 +1,7 @@
 package com.example.DI
 
-import com.example.Repository.HeroRepository
-import com.example.Repository.HeroRepositoryImplementation
+import com.example.repository.HeroRepository
+import com.example.repository.HeroRepositoryImplementation
 import org.koin.dsl.module
 
 val koinModule = module {
